@@ -98,4 +98,26 @@ router.post("/login", async (req, res) => {
     }
 });
 
+// @route   GET /api/auth/verify
+// @desc    Verify token and get user data
+// @access  Private
+router.get("/verify", auth, async (req, res) => {
+    try {
+        res.json({
+            success: true,
+            user: {
+                id: req.user._id,
+                name: req.user.name,
+                email: req.user.email
+            }
+        });
+    } catch (error) {
+        console.error("Verify token error:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+});
+
 module.exports = router;
